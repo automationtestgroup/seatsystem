@@ -1,3 +1,4 @@
+
 var express = require('express');
 var router = express.Router();
 const db = require('../models/index');
@@ -26,8 +27,7 @@ router.get('/add',(req, res, next)=> {
 router.post('/add',(req, res, next)=> {
   const form = {
     adid: req.body.adid,
-    name: req.body.name,
-    status: req.body.status
+    name: req.body.name
   };
   db.sequelize.sync()
     .then(() => db.User.create(form)

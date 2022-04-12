@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const db = require('../models/index');
+const seatinfo = require('../models/seatinfo');
 
 /* GET users listing. */
 router.get('/index',(req, res, next)=> {
@@ -15,34 +16,27 @@ router.get('/index',(req, res, next)=> {
 
 // 出席登録
 router.get('/add',(req, res, next)=> {
+  db.Seatinfo.findAll().then(seatinfo => {
     var data = {
       title: '出席',
       form: new db.Seat(),
       login: req.session.login,
+      seatdata: seatinfo,
       err:null
     }
     res.render('seats/add', data);
+    });
   });
   
   router.post('/add',(req, res, next)=> {
-    const form = {
-      number: req.body.number,
-      adid: req.body.adid
-    };
     db.sequelize.sync()
-      .then(() => db.Seat.create(form)
-      .then(seats=> {
-        res.redirect('/')
-      })
-      .catch(err=> {
-        var data = {
-          title: 'Seats/Add',
-          form: form,
-          err: err
-        }
-        res.render('seats/add', data);
-      })
-      )
+    .then(() => db.Seat.create({
+      number: req.body.number,
+      adid: req.body.adid      
+    }))
+    .then(seats=> {
+      res.redirect('/');
+    });
   });
 
 // 削除
