@@ -2,31 +2,162 @@
 <html lang="ja">
 
 <head>
-  <meta http-equiv="content-type" 
-    content="text/html; charset=UTF-8">
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= title %></title>
-  <link rel="stylesheet" 
-  href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-  crossorigin="anonymous">
-  <link rel='stylesheet' 
-    href='/stylesheets/style.css' />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
+  <link rel='stylesheet' href='/stylesheets/style.css'/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin=""></script>
 </head>
   <body>
-    <h1><%= title %></h1>
     <p>Welcome to <%= login.name %></p>
-    <p>adid <%= login.adid %></p>
-    <div role="main">
-      <table class="table">
-        <% for(var i in content) { %>
-        <tr>
-          <% var obj = content[i]; %>
-          <th><%= obj.id %></th>
-          <td><%= obj.number %></td>
-          <td><%= obj.adid %></td>
-        </tr>
-        <% } %>
-      </table>
-        <p class="mt-4"><a href="/seats/add">&lt;&lt; 出席</a>
-      <a href="/seats/index">退席&gt;&gt;</a></p>
+    <div id="map" style="width: 1200px; height: 600px;"></div>
+     <script>
+      var seats = {
+          "A1":[520, 340],
+          "A2":[430, 340],
+          "A3":[340, 340],
+          "A4":[250, 340],
+          "A5":[160, 340],
+          "B1":[520, 413],
+          "B2":[430, 413],
+          "B3":[340, 413],
+          "B4":[250, 413],
+          "B5":[160, 413],
+          "C1":[51, 173],
+          "C2":[51, 385]
+      }
+  
+      var person = {
+          "A1":"宮尾 崇宏",
+          "B4":"奥苑 大成",
+          "A3":"中野 克哉",
+          "C1":"小出",
+          "C2":"奥山"
+      }
+
+      //マップデータの初期化
+      var image = { url:'/images/template.PNG', width: 836, height: 596 };
+      var bounds = L.latLngBounds([0, 0], [image.height, image.width]);
+      var map = L.map('map', { crs: L.CRS.Simple, maxBounds: bounds.pad(1), zoom:0, maxZoom:5, minZoom:0});
+      map.fitBounds(bounds);
+      L.imageOverlay(image.url, bounds).addTo(map);
+
+      //各種データの初期化
+      var userdata = {};
+      var seatdata = {};
+      var seatinfodata = {};
+      var leafletdata = {};
+
+      //サーバーからデータを取得＆画面更新
+      updateAllData();
+
+      //デバッグ用
+      function showClickEvent(e) {
+          console.log('pixel (%s, %s) | LatLng [%s, %s] | geojson [%s, %s]', 
+              e.containerPoint.x, e.containerPoint.y, 
+              e.latlng.lat, e.latlng.lng,e.latlng.lng, e.latlng.lat );
+      }
+      map.on('click', showClickEvent);
+
+      function getUserData(){
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', "/getuser");
+        xhr.send();
+        xhr.onreadystatechange = function() {
+          if(xhr.readyState === 4 && xhr.status === 200) {
+            userdata = JSON.parse(xhr.responseText);
+            console.log("getUserData is executed...");
+            console.log(userdata);
+            drawdata();
+          }
+        }
+      }
+
+      function getSeatData(){
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', "/getseat");
+        xhr.send();
+        xhr.onreadystatechange = function() {
+          if(xhr.readyState === 4 && xhr.status === 200) {
+            seatdata = JSON.parse(xhr.responseText);
+            console.log("getSeatData is executed...");
+            console.log(seatdata);
+            drawdata();
+          }
+        }
+      }
+
+      function getSeatInfoData(){
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', "/getseatinfo");
+        xhr.send();
+        xhr.onreadystatechange = function() {
+          if(xhr.readyState === 4 && xhr.status === 200) {
+            seatinfodata = JSON.parse(xhr.responseText);
+            console.log("getSeatInfoData is executed...");
+            console.log(seatinfodata);
+            drawdata();
+          }
+        }
+      }
+
+      function updateAllData(){
+        getUserData();
+        getSeatData();
+        getSeatInfoData();
+      }
+
+      function drawdata(){
+         if (userdata != {} && seatdata != {} && seatinfodata != {}) {
+           if (checkUpdate() == true) {
+             for (let i=0; i<leafletdata.length; i++) {
+               console.log(leafletdata[i]);
+              L.circle([leafletdata[i].x, leafletdata[i].y], {color: 'green',radius: 35}).addTo(map).bindTooltip(leafletdata[i].name, {permanent: true, direction: 'center'}).openTooltip().bindPopup(leafletdata[i].adid);
+             }
+           }
+         }
+      }
+
+      function checkUpdate(){
+        let data = [];
+        if (userdata.length != undefined && seatdata.length != undefined && seatinfodata.length != undefined) {
+          for (let i=0; i<seatdata.length; i++) {
+            let temp = {};
+            temp.adid = seatdata[i].adid;
+            temp.number = seatdata[i].number;
+            for (let j=0; j<userdata.length; j++) {
+              if (userdata[j].adid == seatdata[i].adid) {
+                temp.name = userdata[j].name;
+                break;
+              }
+            }
+            for (let k=0; k<seatinfodata.length; k++) {
+              if (seatinfodata[k].number == seatdata[i].number) {
+                temp.x = seatinfodata[k].x;
+                temp.y = seatinfodata[k].y;
+                break;
+              }
+            }
+            data[i] = temp;
+            if (i == seatdata.length - 1) {
+              if (leafletdata != data) {
+                leafletdata = data;
+                return true;
+              } else {
+                return false;
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <form method="post" action="/seats/delete">
+      <a class="btn-flat-vertical-border" href="/seats/add">出席</a>
+      <a class="btn-flat-vertical-border" href="/seats/index">座席一覧</a>
+      <input type="hidden" name="adid" value="<%= login.adid %>">
+      <input type="submit" value="退席" class="btn-flat-vertical-border">
+    </form>
   </body>
 </html>
