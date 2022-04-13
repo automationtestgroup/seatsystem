@@ -9,10 +9,7 @@
   <link rel='stylesheet' href='/stylesheets/style.css'/>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin=""/>
   <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin=""></script>
-<<<<<<< HEAD
   <script src="/javascripts/socket.io-1.4.5.js"></script>
-=======
->>>>>>> 444b117a26dbeb43bdfa960407687447f972c0cb
 </head>
   <body>
     <p>Welcome to <%= login.name %></p>
@@ -57,7 +54,6 @@
       //サーバーからデータを取得＆画面更新
       updateAllData();
 
-<<<<<<< HEAD
       var socket = io.connect("https://morning-sierra-54748.herokuapp.com");
       socket.on("connect", function(){
         console.log("connected");
@@ -70,8 +66,6 @@
         updateAllData();
       });
 
-=======
->>>>>>> 444b117a26dbeb43bdfa960407687447f972c0cb
       //デバッグ用
       function showClickEvent(e) {
           console.log('pixel (%s, %s) | LatLng [%s, %s] | geojson [%s, %s]', 
@@ -123,12 +117,9 @@
       }
 
       function updateAllData(){
-<<<<<<< HEAD
         userdata = {};
         seatdata = {};
         seatinfodata = {};
-=======
->>>>>>> 444b117a26dbeb43bdfa960407687447f972c0cb
         getUserData();
         getSeatData();
         getSeatInfoData();
@@ -137,7 +128,6 @@
       function drawdata(){
          if (userdata != {} && seatdata != {} && seatinfodata != {}) {
            if (checkUpdate() == true) {
-<<<<<<< HEAD
             map.remove();
             map = L.map('map', { crs: L.CRS.Simple, maxBounds: bounds.pad(1), zoom:0, maxZoom:5, minZoom:0});
             map.fitBounds(bounds);
@@ -145,11 +135,6 @@
              for (let i=0; i<leafletdata.length; i++) {
                console.log(leafletdata[i]);
                L.circle([leafletdata[i].x, leafletdata[i].y], {color: 'green',radius: 35}).addTo(map).bindTooltip(leafletdata[i].name, {permanent: true, direction: 'center'}).openTooltip().bindPopup(leafletdata[i].adid);
-=======
-             for (let i=0; i<leafletdata.length; i++) {
-               console.log(leafletdata[i]);
-              L.circle([leafletdata[i].x, leafletdata[i].y], {color: 'green',radius: 35}).addTo(map).bindTooltip(leafletdata[i].name, {permanent: true, direction: 'center'}).openTooltip().bindPopup(leafletdata[i].adid);
->>>>>>> 444b117a26dbeb43bdfa960407687447f972c0cb
              }
            }
          }
