@@ -54,7 +54,7 @@ router.get('/add',(req, res, next)=> {
   router.post('/delete',(req, res, next)=> {
     db.sequelize.sync()
     .then(() => db.Seat.destroy({
-      where:{id:req.body.id}
+      where:{adid:req.body.adid}
     }))
     .then(seats => {
       res.redirect('/');

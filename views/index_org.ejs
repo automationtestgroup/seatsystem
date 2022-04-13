@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta http-equiv="content-type" 
+    content="text/html; charset=UTF-8">
+  <title><%= title %></title>
+  <link rel="stylesheet" 
+  href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+  crossorigin="anonymous">
+  <link rel='stylesheet' 
+    href='/stylesheets/style.css' />
+</head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= login.name %></p>
+    <p>adid <%= login.adid %></p>
+    <div role="main">
+      <table class="table">
+        <% for(var i in content) { %>
+        <tr>
+          <% var obj = content[i]; %>
+          <th><%= obj.id %></th>
+          <td><%= obj.number %></td>
+          <td><%= obj.adid %></td>
+        </tr>
+        <% } %>
+      </table>
+        <p class="mt-4"><a href="/seats/add">&lt;&lt; 出席</a>
+      <a href="/seats/index">退席&gt;&gt;</a></p>
+  </body>
+</html>
