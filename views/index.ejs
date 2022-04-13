@@ -68,11 +68,10 @@
 
       //デバッグ用
       function showClickEvent(e) {
-          console.log('pixel (%s, %s) | LatLng [%s, %s] | geojson [%s, %s]', 
-              e.containerPoint.x, e.containerPoint.y, 
-              e.latlng.lat, e.latlng.lng,e.latlng.lng, e.latlng.lat );
+        console.log('pixel (%s, %s) | LatLng [%s, %s] | geojson [%s, %s]', 
+        e.containerPoint.x, e.containerPoint.y, 
+        e.latlng.lat, e.latlng.lng,e.latlng.lng, e.latlng.lat );
       }
-      map.on('click', showClickEvent);
 
       function getUserData(){
         let xhr = new XMLHttpRequest();
@@ -132,6 +131,15 @@
             map = L.map('map', { crs: L.CRS.Simple, maxBounds: bounds.pad(1), zoom:0, maxZoom:5, minZoom:0});
             map.fitBounds(bounds);
             L.imageOverlay(image.url, bounds).addTo(map);
+             map.on('click', showClickEvent);
+             console.log(document.documentElement.clientWidth);
+             console.log(document.getElementById("map").clientWidth);
+             if (document.documentElement.clientWidth < document.getElementById("map").clientWidth) {
+              document.getElementById("map").style.width = (document.documentElement.clientWidth - 100) + "px";
+             }
+             if (document.documentElement.clientHeight < document.getElementById("map").clientHeight) {
+              document.getElementById("map").style.height = (document.documentElement.clientHeight - 300) + "px";
+             }
              for (let i=0; i<leafletdata.length; i++) {
                console.log(leafletdata[i]);
                L.circle([leafletdata[i].x, leafletdata[i].y], {color: 'green',radius: 35}).addTo(map).bindTooltip(leafletdata[i].name, {permanent: true, direction: 'center'}).openTooltip().bindPopup(leafletdata[i].adid);
