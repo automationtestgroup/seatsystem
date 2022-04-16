@@ -52,13 +52,26 @@ router.get('/add',(req, res, next)=> {
   });
 
   router.post('/delete',(req, res, next)=> {
-    db.sequelize.sync()
-    .then(() => db.Seat.destroy({
-      where:{id:req.body.id}
-    }))
-    .then(seats => {
+    console.log(req.body);
+    if (req.body.adid != undefined && req.body.number != undefined){
+      db.sequelize.sync()
+      .then(() => db.Seat.destroy({
+        where:{adid:req.body.adid, number:req.body.number}
+      }))
+      .then(seats => {
+        res.json(seats);
+      });
+    } else if (req.body.adid != undefined){
+      db.sequelize.sync()
+      .then(() => db.Seat.destroy({
+        where:{adid:req.body.adid}
+      }))
+      .then(seats => {
+        res.redirect('/');
+      });
+    } else {
       res.redirect('/');
-    });
+    }
   });
 
 // 検索
