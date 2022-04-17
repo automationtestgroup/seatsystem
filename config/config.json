@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "postgres",
-    "password": "postgres",
+    "password": "BILStAr-V2",
     "database": "database_development",
     "host": "localhost",
     "dialect": "postgres"
@@ -21,10 +21,10 @@
     }
   },
   "production": {
-    "username": "zsogqyymjddxzy",
-    "password": "eadcaead9e06b54b5ea7e5c61948125a7d3c68fc8aa1ae8fe64f66a2d0dc6a4a",
-    "database": "d6okl65u5tnmp9",
-    "host": "ec2-3-225-213-67.compute-1.amazonaws.com",
+    "username": "gelowcgzhyxxur",
+    "password": "11babce9dbede5a3fd6bdeb5ce3ecb3365bf071d997059f036910b79a60177ae",
+    "database": "de0uldmnodp4kk",
+    "host": "ec2-34-197-84-74.compute-1.amazonaws.com",
     "dialect": "postgres",
     "use_env_variable": "DATABASE_URL",
     "dialectOptions": {
