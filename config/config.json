@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "postgres",
-    "password": "BILStAr-V2",
-    "database": "database_development",
+    "password": "postgres",
+    "database": "postgres",
     "host": "localhost",
     "dialect": "postgres"
   },
