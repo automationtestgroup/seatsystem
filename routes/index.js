@@ -21,13 +21,32 @@ function check(req,res) {
 // トップページにページ番号をつけてアクセス
 router.get('/',(req, res, next)=> {
   if (check(req,res)){ return };
-    db.Seat.findAll().then(seats => {
-      var data = {
-        title: '座席表',
-        content: seats,
-        login: req.session.login
-      }
-      res.render('index', data);
-    });
+  var data = {
+    title: '座席表',
+    login: req.session.login
+  }
+  res.render('index', data);
 });
+
+router.get('/getuser',(req, res, next)=> {
+  if (check(req,res)){ return };
+  db.User.findAll().then(users => {
+    res.json(users);
+  });
+});
+
+router.get('/getseat',(req, res, next)=> {
+  if (check(req,res)){ return };
+  db.Seat.findAll().then(seats => {
+    res.json(seats);
+  });
+});
+
+router.get('/getseatinfo',(req, res, next)=> {
+  if (check(req,res)){ return };
+  db.Seatinfo.findAll().then(infos => {
+    res.json(infos);
+  });
+});
+
 module.exports = router;

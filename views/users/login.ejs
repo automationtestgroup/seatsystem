@@ -19,15 +19,12 @@
     <p><%- content %></p>
     <form method="post" action="/users/login">
       <div class="form-group">
-        <label for="adid">ADID</label>
-        <input type="text" name="adid" id="adid" 
-          class="form-control">
+        <label for="adid">UserID</label>
+        <input type="text" name="adid" id="adid" class="form-control">
       </div>
-      <input type="submit" value="ログイン" 
-        class="btn btn-primary">
+      <input type="submit" value="ログイン" class="btn-flat-vertical-border">
+      <a class="btn-flat-vertical-border" href="/users/add">アカウント新規作成</a>
     </form>
-    <p class="mt-4"><a href="/">&lt;&lt; Top へ戻る</a>
-      <a href="/users/add">アカウントの作成&gt;&gt;</a></p>
   </div>
 </body>
 

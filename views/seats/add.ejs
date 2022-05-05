@@ -80,12 +80,7 @@
     href='/stylesheets/style.css' />
 </head>
 
-<body class="container">
-  <header>
-    <h1 class="display-4">
-      <%= title %></h1>
-  </header>
-  
+<body class="container">  
   <div id="loadingMessage">🎥 Unable to access video stream (please make sure you have a webcam enabled)</div>
   <canvas id="canvas" hidden></canvas>
   <div id="output" hidden>
@@ -108,15 +103,12 @@
               </select>
         </div>
         <div class="form-group">
-            <label for="adid">ADID</label>
-            <input type="text" name="adid" id="adid" 
-            value = "<%= login.adid %>"
-             class="form-control">
-        </div>     
-        <input type="submit" value="出席" 
-        class="btn btn-primary">
+            <label for="adid">UserID</label>
+            <input type="text" name="adid" id="adid" value = "<%= login.adid %>" class="form-control">
+        </div>
+        <input type="submit" value="出席" class="btn-flat-vertical-border">
+        <a class="btn-flat-vertical-border" href="/">&lt;&lt; 戻る</a>
     </form>
-    <p class="mt-4"><a href="/">&lt;&lt; Top へ戻る</a>
   </div>
 
   <script>

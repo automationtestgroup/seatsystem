@@ -9,7 +9,7 @@ var usersRouter = require('./routes/users');
 var seatsRouter = require('./routes/seats');
 var seatinfosRouter = require('./routes/seatinfos');
 
-const session = require('express-session'); //☆
+const session = require('express-session');
 
 var app = express();
 
@@ -26,8 +26,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 var session_opt = {
   secret: 'keyboard cat',
   resave: false,
-  saveUninitialized: false, 
-  cookie: { maxAge: 60 * 60 * 1000 }
+  saveUninitialized: false,
+  cookie: { maxAge: 15 * 60 * 60 * 1000 }
 };
 app.use(session(session_opt));
 

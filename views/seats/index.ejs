@@ -13,24 +13,21 @@
 </head>
 
 <body class="container">
-
-  <header>
-    <h1 class="display-4">
-      <%= title %></h1>
-  </header>
   <div role="main">
     <table class="table">
+      <tr style="background-color: lightblue;">
+        <td>居場所</td>
+        <td>UserID</td>
+      </tr>
       <% for(var i in content) { %>
-      <tr>
         <% var obj = content[i]; %>
-        <th><%= obj.id %></th>
         <td><%= obj.number %></td>
         <td><%= obj.adid %></td>
       </tr>
       <% } %>
     </table>
-    <p class="mt-4"><a href="/">&lt;&lt; Top へ戻る</a>
-        <a href="/seats/add">座席の作成&gt;&gt;</a></p>
+    <a class="btn-flat-vertical-border" href="/">&lt;&lt; 戻る</a>
+    <a class="btn-flat-vertical-border" href="/seatinfos/add">座席の作成</a>
   </div>
 </body>
 

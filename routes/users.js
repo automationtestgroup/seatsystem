@@ -49,7 +49,7 @@ router.post('/add',(req, res, next)=> {
 router.get('/login', (req, res, next) => {
   var data = {
      title:'ログイン',
-     content:'ADIDを入力下さい。'
+     content:'UserIDを入力してください'
   }
   res.render('users/login', data);
 });
@@ -70,7 +70,7 @@ router.post('/login', (req, res, next) => {
     } else {
       var data = {
         title:'ログイン',
-        content:'ADIDに問題があります。再度入力またはアカウント作成を実施して下さい。'
+        content:'UserIDに問題があります。再度入力またはアカウント作成を実施して下さい。'
       }
       res.render('users/login', data);
     }
