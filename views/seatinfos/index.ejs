@@ -13,12 +13,17 @@
 </head>
 
 <body class="container">
+  <header>
+    <h1 class="display-4">
+      <%= title %></h1>
+  </header>
   <div role="main">
     <table class="table">
-      <tr style="background-color: lightgray">
-        <td>座席番号</td>
-        <td>X座標</td>
-        <td>Y座標</td>
+        <th>座席番号</th>
+        <th>X座標</th>
+        <th>Y座標</th>
+        <th></th>
+        <th></th>
       </tr>
       <% for(var i in content) { %>
       <tr>
@@ -26,11 +31,23 @@
         <td><%= obj.number %></td>
         <td><%= obj.x %></td>
         <td><%= obj.y %></td>
+        <td>
+          <form action="/seatinfos/edit" method="get">
+            <input type="hidden" name="id" value="<%= obj.id %>">
+            <input type="submit" value="編集" class="btn btn-primary">
+        </form>
+        </td>
+        <td>
+          <form action="/seatinfos/delete" method="get">
+            <input type="hidden" name="id" value="<%= obj.id %>">
+            <input type="submit" value="削除" class="btn btn-primary">
+          </form>
+        </td>
       </tr>
       <% } %>
     </table>
-    <a class="btn-flat-vertical-border" href="/">&lt;&lt; 戻る</a>
-    <a class="btn-flat-vertical-border" href="/seatinfos/add">座席の作成</a>
+    <a class="btn btn-primary" href="/">Top へ戻る</a>
+    <a class="btn btn-primary" href="/seatinfos/add">新規作成</a>
   </div>
 </body>
 

@@ -6,7 +6,7 @@ const db = require('../models/index');
 router.get('/index',(req, res, next)=> {
   db.Seatinfo.findAll().then(seatinfos => {
     var data = {
-      title: 'Seatinfo/Index',
+      title: '座席情報',
       content: seatinfos
     }
     res.render('seatinfos', data);
@@ -14,10 +14,10 @@ router.get('/index',(req, res, next)=> {
 });
 
 
-// 出席登録
+// 座席追加
 router.get('/add',(req, res, next)=> {
     var data = {
-      title: '座席情報',
+      title: '座席追加',
       form: new db.Seatinfo(),
       err:null
     }
@@ -37,7 +37,7 @@ router.get('/add',(req, res, next)=> {
       })
       .catch(err=> {
         var data = {
-          title: 'Seatinfos/Add',
+          title: '座席追加',
           form: form,
           err: err
         }
@@ -46,13 +46,14 @@ router.get('/add',(req, res, next)=> {
       )
   });
 
-// 更新
+// 編集
   router.get('/edit',(req, res, next)=> {
     db.Seatinfo.findByPk(req.query.id)
     .then(seatinfos => {
       var data = {
-        title: 'Seatinfos/Edit',
-        form: seatinfos
+        title: '座席編集',
+        form: seatinfos,
+        err:null
       }
       res.render('seatinfos/edit', data);
     });
@@ -64,7 +65,34 @@ router.get('/add',(req, res, next)=> {
       seatinfos.number = req.body.number;
       seatinfos.x = req.body.x;
       seatinfos.y = req.body.y;
-      seatinfos.save().then(()=>res.redirect('/seatinfos'));
+      seatinfos.save().then(()=>res.redirect('/seatinfos/index'))
+      .catch(err=> {
+        var data = {
+          title: '座席編集',
+          form: seatinfos,
+          err: err
+        }
+        res.render('seatinfos/edit', data);
+      })
     });
   });
+
+// deleteによるレコードの削除
+router.get('/delete',(req, res, next)=> {
+  db.Seatinfo.findByPk(req.query.id)
+  .then(seatinfos => {
+    var data = {
+      title: '座席削除',
+      form: seatinfos
+    }
+    res.render('seatinfos/delete', data);
+  });
+});
+
+router.post('/delete',(req, res, next)=> {
+  db.Seatinfo.findByPk(req.body.id)
+  .then(seatinfos => {
+    seatinfos.destroy().then(()=>res.redirect('/seatinfos/index'));
+  });
+});
 module.exports = router;

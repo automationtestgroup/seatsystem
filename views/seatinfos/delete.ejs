@@ -19,24 +19,28 @@
   </header>
   <div role="main">
     <table class="table">
-        <tr>
-            <th>勤怠情報</th>
-            <td><%= form.number %></td>
-        </tr>
-        <tr>
-            <th>UserID</th>
-            <td><%= form.adid %></td>
-        </tr>
-        <tr>
-            <th></th>
-            <td></td>
-        </tr>
+      <tr>
+        <th>NUMBER</th>
+        <td><%= form.number %></td>
+      </tr>
+      <tr>
+        <th>X座標</th>
+        <td><%= form.x %></td>
+      </tr>
+      <tr>
+        <th>y座標</th>
+        <td><%= form.y %></td>
+      </tr>
+      <tr>
+        <th></th>
+        <td></td>
+      </tr>
     </table>
-    <form method="post" action="/seats/delete">
+    <form method="post" action="/seatinfos/delete">
       <input type="hidden" name="id" 
         value="<%= form.id %>">
       <input type="submit" value="削除" class="btn btn-primary">
-      <a class="btn btn-primary" href="/seats/index">戻る</a>
+      <a class="btn btn-primary" href="/seatinfos/index">戻る</a>
     </form>
   </div>
 </body>

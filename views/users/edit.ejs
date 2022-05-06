@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta http-equiv="content-type" 
+    content="text/html; charset=UTF-8">
+  <title><%= title %></title>
+  <link rel="stylesheet" 
+  href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+  crossorigin="anonymous">
+  <link rel='stylesheet' 
+    href='/stylesheets/style.css' />
+</head>
+
+<body class="container">
+  <header>
+    <h1 class="display-4">
+      <%= title %></h1>
+  </header>
+  <div role="main">
+    <ol class="text-danger">
+      <% if (err!=null) { for (let i in err.errors) { %>
+      <li><%= err.errors[i].message %></li>
+      <% }} %>
+    </ol>
+    <form method="post" action="/users/edit">
+        <input type="hidden" name="id" value="<%= form.id %>">
+        <div class="form-group">
+            <label for="adid">UserID</label>
+            <input type="text" name="adid" id="adid" 
+            class="form-control" value="<%= form.adid %>">
+            <ul class="text-danger">
+              <% if (err!=null) { for (let i in err.get("adid")) { %>
+              <li><%= err.get("adid")[i].message %></li>
+              <% }} %>
+            </ul>        
+          </div>
+          <div class="form-group">
+            <label for="name">氏名</label>
+            <input type="text" name="name" id="name" 
+            class="form-control" value="<%= form.name %>">
+            <ul class="text-danger">
+              <% if (err!=null) { for (let i in err.get("name")) { %>
+              <li><%= err.get("name")[i].message %></li>
+              <% }} %>
+            </ul>        
+          </div>
+          <div class="form-group">
+            <label for="name">ステータス</label>
+            <input type="text" name="status" id="status" 
+            class="form-control" value="<%= form.status %>">
+            <ul class="text-danger">
+              <% if (err!=null) { for (let i in err.get("status")) { %>
+              <li><%= err.get("status")[i].message %></li>
+              <% }} %>
+            </ul>        
+          </div>
+      <input type="submit" value="編集" class="btn btn-primary">
+      <a class="btn btn-primary" href="/users/index">戻る</a>
+    </form>
+  </div>
+</body>
+
+</html>

@@ -24,7 +24,7 @@
       <li><%= err.errors[i].message %></li>
       <% }} %>
     </ol>
-    <form method="post" action="/users/add">
+    <form method="post" action="/users/register">
       <div class="form-group">
         <label for="adid">UserID</label>
         <input type="text" name="adid" id="adid" class="form-control">
@@ -32,7 +32,7 @@
           <% if (err!=null) { for (let i in err.get("adid")) { %>
           <li><%= err.get("adid")[i].message %></li>
           <% }} %>
-        </ul>        
+        </ul>
       </div>
       <div class="form-group">
         <label for="name">氏名</label>
@@ -41,10 +41,10 @@
           <% if (err!=null) { for (let i in err.get("name")) { %>
           <li><%= err.get("name")[i].message %></li>
           <% }} %>
-        </ul>        
+        </ul>
       </div>
-      <input type="submit" value="作成" class="btn btn-primary">
-      <a class="btn btn-primary" href="/users/index">&lt;&lt; 戻る</a>
+      <input type="submit" value="作成" class="btn-flat-vertical-border">
+      <a class="btn-flat-vertical-border" href="/">&lt;&lt; 戻る</a>
     </form>
   </div>
 </body>

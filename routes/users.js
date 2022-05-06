@@ -1,5 +1,6 @@
 
 var express = require('express');
+const { status } = require('express/lib/response');
 var router = express.Router();
 const db = require('../models/index');
 
@@ -7,7 +8,7 @@ const db = require('../models/index');
 router.get('/index',(req, res, next)=> {
   db.User.findAll().then(usrs => {
     var data = {
-      title: 'Users/Index',
+      title: 'ユーザ情報',
       content: usrs
     }
     res.render('users', data);
@@ -15,16 +16,16 @@ router.get('/index',(req, res, next)=> {
 });
 
 // ユーザ新規登録
-router.get('/add',(req, res, next)=> {
+router.get('/register',(req, res, next)=> {
   var data = {
     title: 'アカウント作成',
     form: new db.User(),
     err:null
   }
-  res.render('users/add', data);
+  res.render('users/register', data);
 });
 
-router.post('/add',(req, res, next)=> {
+router.post('/register',(req, res, next)=> {
   const form = {
     adid: req.body.adid,
     name: req.body.name
@@ -40,7 +41,7 @@ router.post('/add',(req, res, next)=> {
         form: form,
         err: err
       }
-      res.render('users/add', data);
+      res.render('users/register', data);
     })
     )
 });
@@ -77,35 +78,86 @@ router.post('/login', (req, res, next) => {
   })
 });
 
-// 出席
-// router.get('/attend',(req, res, next)=> {
-//   var data = {
-//     title: 'Users/Attend',
-//     form: new db.User(),
-//     err:null
-//   }
-//   res.render('users/attend', data);
-// });
+// addによるレコードの作成
+router.get('/add',(req, res, next)=> {
+  var data = {
+    title: 'ユーザ登録',
+    form: new db.User(),
+    err:null
+  }
+  res.render('users/add', data);
+});
 
-// router.post('/attend',(req, res, next)=> {
-//   const form = {
-//     number: req.body.number,
-//     adid: req.body.adid,
-//   };
-//   db.sequelize.sync()
-//     .then(() => db.User.create(form)
-//     .then(usr=> {
-//       res.redirect('/users')
-//     })
-//     .catch(err=> {
-//       var data = {
-//         title: 'アカウント作成',
-//         form: form,
-//         err: err
-//       }
-//       res.render('users/add', data);
-//     })
-//     )
-// });
+router.post('/add',(req, res, next)=> {
+  const form = {
+    adid: req.body.adid,
+    name: req.body.name,
+    status: req.body.status
+  };
+  db.sequelize.sync()
+    .then(() => db.User.create(form)
+    .then(usr=> {
+      res.redirect('/users/index')
+    })
+    .catch(err=> {
+      var data = {
+        title: 'ユーザ登録',
+        form: form,
+        err: err
+      }
+      res.render('users/add', data);
+    })
+    )
+});
+
+// editによるレコードの編集
+router.get('/edit',(req, res, next)=> {
+  db.User.findByPk(req.query.id)
+  .then(usr => {
+    var data = {
+      title: 'ユーザ編集',
+      form: usr,
+      err:null
+    }
+    res.render('users/edit', data);
+  });
+});
+
+router.post('/edit',(req, res, next)=> {
+  db.User.findByPk(req.body.id)
+  .then(usr => {
+    usr.adid = req.body.adid,
+    usr.name = req.body.name,
+    usr.status = req.body.status
+    usr.save().then(()=>res.redirect('/users/index'))
+    .catch(err=> {
+      var data = {
+        title: 'ユーザ編集',
+        form: usr,
+        err: err
+      }
+      res.render('users/edit', data);
+    })
+  });
+});
+
+// deleteによるレコードの削除
+router.get('/delete',(req, res, next)=> {
+  db.User.findByPk(req.query.id)
+  .then(usr => {
+    var data = {
+      title: 'ユーザ削除',
+      form: usr
+    }
+    res.render('users/delete', data);
+  });
+});
+
+router.post('/delete',(req, res, next)=> {
+  db.User.findByPk(req.body.id)
+  .then(usr => {
+    usr.destroy().then(()=>res.redirect('/users/index'));
+  });
+});
 
 module.exports = router;

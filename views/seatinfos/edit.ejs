@@ -19,29 +19,49 @@
       <%= title %></h1>
   </header>
   <div role="main">
+    <ol class="text-danger">
+      <% if (err!=null) { for (let i in err.errors) { %>
+      <li><%= err.errors[i].message %></li>
+      <% }} %>
+    </ol>
     <form method="post" action="/seatinfos/edit">
+      <input type="hidden" name="id" value="<%= form.id %>">
       <div class="form-group">
         <label for="number">NUMBER</label>
         <input type="text" name="number" id="number" 
         value="<%= form.number%>" 
         class="form-control">
+        <ul class="text-danger">
+          <% if (err!=null) { for (let i in err.get("number")) { %>
+          <li><%= err.get("number")[i].message %></li>
+          <% }} %>
+        </ul>
       </div>
       <div class="form-group">
         <label for="x">X</label>
         <input type="number" name="x" id="x" 
         value="<%= form.x%>"     
         class="form-control">
+        <ul class="text-danger">
+          <% if (err!=null) { for (let i in err.get("x")) { %>
+          <li><%= err.get("x")[i].message %></li>
+          <% }} %>
+        </ul>
       </div>
       <div class="form-group">
         <label for="y">Y</label>
         <input type="number" name="y" id="y" 
         value="<%= form.y%>"         
         class="form-control">
+        <ul class="text-danger">
+          <% if (err!=null) { for (let i in err.get("y")) { %>
+          <li><%= err.get("y")[i].message %></li>
+          <% }} %>
+        </ul>
       </div>
-      <input type="submit" value="更新" 
-        class="btn btn-primary">
+      <input type="submit" value="編集" class="btn btn-primary">
+      <a class="btn btn-primary" href="/seatinfos/index">戻る</a>  
     </form>
-    <p class="mt-4"><a href="/">&lt;&lt; Top へ戻る</a>
   </div>
 </body>
 

@@ -15,32 +15,18 @@
 <body class="container">
   <div role="main">
     <table class="table">
+      <tr style="background-color: lightblue;">
         <th>勤怠情報</th>
         <th>UserID</th>
-        <th></th>
-        <th></th>
       </tr>
       <% for(var i in content) { %>
         <% var obj = content[i]; %>
         <td><%= obj.number %></td>
         <td><%= obj.adid %></td>
-        <td>
-          <form action="/seats/edit" method="get">
-            <input type="hidden" name="id" value="<%= obj.id %>">
-            <input type="submit" value="編集" class="btn btn-primary">
-          </form>
-        </td>
-        <td>
-          <form action="/seats/delete" method="get">
-            <input type="hidden" name="id" value="<%= obj.id %>">
-            <input type="submit" value="削除" class="btn btn-primary">
-          </form>
-        </td>
       </tr>
       <% } %>
     </table>
-    <a class="btn btn-primary" href="/">Top へ戻る</a>
-    <a class="btn btn-primary" href="/seats/add">新規作成</a>
+    <a class="btn-flat-vertical-border" href="/">&lt;&lt; 戻る</a>
   </div>
 </body>
 
